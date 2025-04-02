@@ -7,6 +7,7 @@ import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 import org.joml.Matrix4f;
+import net.minecraft.client.gl.ShaderProgram;
 
 public class DoctorStrangeShader {
     public static ShaderProgram shader;
@@ -15,7 +16,7 @@ public class DoctorStrangeShader {
         try {
             shader = new ShaderProgram(
                     MinecraftClient.getInstance().getResourceManager(),
-                    "acmportals:shaders/core/doctor_strange.json",
+                    "acmportals:shaders/core/doctorstrange",
                     VertexFormats.POSITION_TEXTURE
             );
         } catch (Exception e) {
