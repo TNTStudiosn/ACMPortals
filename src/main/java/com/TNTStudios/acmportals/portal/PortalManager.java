@@ -12,7 +12,7 @@ public class PortalManager {
     public static void spawnPortal(ServerCommandSource source, String name) {
         ServerPlayerEntity player = source.getPlayer();
         Vec3d pos = player.getPos().add(player.getRotationVec(1.0f).multiply(3)); // 3 bloques al frente
-        PortalInstance portal = new PortalInstance(name, pos);
+        PortalInstance portal = new PortalInstance(name, pos, player);
         portal.spawn();
         activePortals.put(name, portal);
     }

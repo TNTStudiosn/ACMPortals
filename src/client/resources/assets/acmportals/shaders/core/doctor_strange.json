@@ -1,0 +1,27 @@
+{
+  "blend": {
+    "func": "add",
+    "srcrgb": "src_alpha",
+    "dstrgb": "one_minus_src_alpha"
+  },
+  "vertex": "acmportals:shaders/doctor_strange.vert",
+  "fragment": "acmportals:shaders/doctor_strange.frag",
+  "attributes": [
+    "Position",
+    "UV0"
+  ],
+  "uniforms": [
+    {
+      "name": "ModelViewMat",
+      "type": "matrix4x4"
+    },
+    {
+      "name": "ProjMat",
+      "type": "matrix4x4"
+    },
+    {
+      "name": "time",
+      "type": "float"
+    }
+  ]
+}

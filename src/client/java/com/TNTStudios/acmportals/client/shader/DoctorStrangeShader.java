@@ -12,8 +12,17 @@ public class DoctorStrangeShader {
     public static ShaderProgram shader;
 
     public static void init() {
-        // Cargamos el shader desde JSON (deberás crearlo en assets later)
+        try {
+            shader = new ShaderProgram(
+                    MinecraftClient.getInstance().getResourceManager(),
+                    "acmportals:shaders/core/doctor_strange.json",
+                    VertexFormats.POSITION_TEXTURE
+            );
+        } catch (Exception e) {
+            throw new RuntimeException("Error loading Doctor Strange shader", e);
+        }
     }
+
 
     public static void render(MatrixStack matrices, double x, double y, double z, float tickDelta, float time) {
         BufferBuilder buffer = Tessellator.getInstance().getBuffer();
@@ -31,8 +40,9 @@ public class DoctorStrangeShader {
         buffer.vertex(matrix,  size, 0,  size).texture(1, 1).next();
         buffer.vertex(matrix,  size, 0, -size).texture(1, 0).next();
 
-        BufferRenderer.drawWithShader(buffer.end());
+        BufferRenderer.draw(buffer.end());
 
         RenderSystem.disableBlend();
     }
+
 }
