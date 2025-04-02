@@ -14,7 +14,7 @@ public class DoctorStrangeShader {
 
     public static void init() {
         try {
-            String shaderId = "acmportals:shaders/core/doctorstrange";
+            String shaderId = "doctorstrange";
             System.out.println("Attempting to load shader with ID: " + shaderId);
             Identifier id = new Identifier(shaderId);
             System.out.println("Namespace: " + id.getNamespace());
