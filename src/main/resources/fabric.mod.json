@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "id": "acmportals",
+  "version": "${version}",
+  "name": "ACMPortals",
+  "description": "",
+  "authors": [],
+  "contact": {},
+  "license": "All-Rights-Reserved",
+  "icon": "assets/acmportals/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "com.TNTStudios.acmportals.client.AcmportalsClient"
+    ],
+    "main": [
+      "com.TNTStudios.acmportals.Acmportals"
+    ]
+  },
+  "mixins": [
+    "acmportals.mixins.json",
+    {
+      "config": "acmportals.client.mixins.json",
+      "environment": "client"
+    }
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}
