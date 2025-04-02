@@ -4,8 +4,8 @@
     "srcrgb": "src_alpha",
     "dstrgb": "one_minus_src_alpha"
   },
-  "vertex": "doctor_strange",
-  "fragment": "doctor_strange",
+  "vertex": "../doctor_strange",
+  "fragment": "../doctor_strange",
   "attributes": [
     "Position",
     "UV0"
