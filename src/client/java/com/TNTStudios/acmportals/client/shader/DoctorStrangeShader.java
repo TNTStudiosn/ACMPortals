@@ -14,11 +14,17 @@ public class DoctorStrangeShader {
 
     public static void init() {
         try {
+            String shaderId = "acmportals:shaders/core/doctorstrange";
+            System.out.println("Attempting to load shader with ID: " + shaderId);
+            Identifier id = new Identifier(shaderId);
+            System.out.println("Namespace: " + id.getNamespace());
+            System.out.println("Path: " + id.getPath());
             shader = new ShaderProgram(
                     MinecraftClient.getInstance().getResourceManager(),
-                    "acmportals:shaders/core/doctorstrange",
+                    shaderId,
                     VertexFormats.POSITION_TEXTURE
             );
+            System.out.println("Shader loaded successfully.");
         } catch (Exception e) {
             throw new RuntimeException("Error loading Doctor Strange shader", e);
         }

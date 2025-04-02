@@ -4,8 +4,8 @@
     "srcrgb": "src_alpha",
     "dstrgb": "one_minus_src_alpha"
   },
-  "vertex": "acmportals:shaders/doctor_strange.vert",
-  "fragment": "acmportals:shaders/doctor_strange.frag",
+  "vertex": "acmportals:shaders/doctor_strange",
+  "fragment": "acmportals:shaders/doctor_strange",
   "attributes": [
     "Position",
     "UV0"
