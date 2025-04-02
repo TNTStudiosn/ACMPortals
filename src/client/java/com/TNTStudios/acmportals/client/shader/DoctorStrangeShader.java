@@ -6,6 +6,7 @@ import net.minecraft.client.gl.ShaderProgram;
 import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.RotationAxis;
 import org.joml.Matrix4f;
 import net.minecraft.client.gl.ShaderProgram;
 
@@ -35,35 +36,42 @@ public class DoctorStrangeShader {
         MinecraftClient client = MinecraftClient.getInstance();
 
         matrices.push();
-        matrices.translate(x, y + 0.01, z); // Leve elevación para evitar z-fighting con el suelo
+        matrices.translate(x, y + 1.6, z);
+        matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(180));
         Matrix4f matrix = matrices.peek().getPositionMatrix();
 
-        // Configuración del pipeline gráfico
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
-        RenderSystem.disableCull(); // Desactiva el culling para ver ambos lados del portal
+        RenderSystem.disableCull();
         RenderSystem.disableDepthTest();
         RenderSystem.depthMask(false);
 
-        // Activamos el shader y le pasamos el uniform
         RenderSystem.setShader(() -> shader);
-        shader.getUniform("time").set(time);
 
-        // Comenzamos el renderizado
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder buffer = tessellator.getBuffer();
-        buffer.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE);
+        buffer.begin(VertexFormat.DrawMode.TRIANGLE_FAN, VertexFormats.POSITION_COLOR_TEXTURE_LIGHT);
 
-        float size = 2.5f;
+        float radius = 2.0f;
+        int segments = 64;
+        float r = 1.0f, g = 0.8f, b = 0.4f, a = 1.0f;
+        int light = 0x00F000F0;
 
-        buffer.vertex(matrix, -size, 0.0f, -size).texture(0.0f, 0.0f).next();
-        buffer.vertex(matrix, -size, 0.0f,  size).texture(0.0f, 1.0f).next();
-        buffer.vertex(matrix,  size, 0.0f,  size).texture(1.0f, 1.0f).next();
-        buffer.vertex(matrix,  size, 0.0f, -size).texture(1.0f, 0.0f).next();
+        buffer.vertex(matrix, 0, 0, 0).color(r, g, b, a).texture(0.5f, 0.5f).light(light).next();
+
+        for (int i = 0; i <= segments; i++) {
+            double angle = 2 * Math.PI * i / segments;
+            float dx = (float) Math.cos(angle) * radius;
+            float dy = (float) Math.sin(angle) * radius;
+
+            float u = 0.5f + dx / (radius * 2);
+            float v = 0.5f + dy / (radius * 2);
+
+            buffer.vertex(matrix, dx, dy, 0).color(r, g, b, a).texture(u, v).light(light).next();
+        }
 
         tessellator.draw();
 
-        // Restaurar estados gráficos
         RenderSystem.depthMask(true);
         RenderSystem.enableDepthTest();
         RenderSystem.enableCull();
@@ -71,9 +79,5 @@ public class DoctorStrangeShader {
 
         matrices.pop();
     }
-
-
-
-
 
 }
