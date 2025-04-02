@@ -32,24 +32,48 @@ public class DoctorStrangeShader {
 
 
     public static void render(MatrixStack matrices, double x, double y, double z, float tickDelta, float time) {
-        BufferBuilder buffer = Tessellator.getInstance().getBuffer();
+        MinecraftClient client = MinecraftClient.getInstance();
+
+        matrices.push();
+        matrices.translate(x, y + 0.01, z); // Leve elevación para evitar z-fighting con el suelo
         Matrix4f matrix = matrices.peek().getPositionMatrix();
 
+        // Configuración del pipeline gráfico
         RenderSystem.enableBlend();
+        RenderSystem.defaultBlendFunc();
+        RenderSystem.disableCull(); // Desactiva el culling para ver ambos lados del portal
+        RenderSystem.disableDepthTest();
+        RenderSystem.depthMask(false);
+
+        // Activamos el shader y le pasamos el uniform
         RenderSystem.setShader(() -> shader);
         shader.getUniform("time").set(time);
 
+        // Comenzamos el renderizado
+        Tessellator tessellator = Tessellator.getInstance();
+        BufferBuilder buffer = tessellator.getBuffer();
         buffer.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE);
 
         float size = 2.5f;
-        buffer.vertex(matrix, -size, 0, -size).texture(0, 0).next();
-        buffer.vertex(matrix, -size, 0,  size).texture(0, 1).next();
-        buffer.vertex(matrix,  size, 0,  size).texture(1, 1).next();
-        buffer.vertex(matrix,  size, 0, -size).texture(1, 0).next();
 
-        BufferRenderer.draw(buffer.end());
+        buffer.vertex(matrix, -size, 0.0f, -size).texture(0.0f, 0.0f).next();
+        buffer.vertex(matrix, -size, 0.0f,  size).texture(0.0f, 1.0f).next();
+        buffer.vertex(matrix,  size, 0.0f,  size).texture(1.0f, 1.0f).next();
+        buffer.vertex(matrix,  size, 0.0f, -size).texture(1.0f, 0.0f).next();
 
+        tessellator.draw();
+
+        // Restaurar estados gráficos
+        RenderSystem.depthMask(true);
+        RenderSystem.enableDepthTest();
+        RenderSystem.enableCull();
         RenderSystem.disableBlend();
+
+        matrices.pop();
     }
+
+
+
+
 
 }

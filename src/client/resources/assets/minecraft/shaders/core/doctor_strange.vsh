@@ -1,20 +1,19 @@
 #version 150
 
-// Atributos que nos pasa Minecraft (por VertexFormats.POSITION_TEXTURE)
 in vec3 Position;
+in vec4 Color;
 in vec2 UV0;
+in ivec2 UV2;
 
-// Uniforms que MC inyecta automáticamente
-uniform mat4 ModelViewMat;
-uniform mat4 ProjMat;
+out vec4 color;
+out vec2 uv;
+out vec2 uv2;
 
-// Pasamos las coordenadas a fragment
-out vec2 texCoord;
+uniform mat4 ModelViewMat, ProjMat;
 
 void main() {
-    // Simplemente asignamos uv
-    texCoord = UV0;
-
-    // Transformación final en clip-space
+    color = Color;
+    uv = UV0;
+    uv2 = UV2 / 16.0;
     gl_Position = ProjMat * ModelViewMat * vec4(Position, 1.0);
 }
